@@ -14,13 +14,6 @@ class Pokemon(models.Model):
         blank=True,
         related_name='previous',
     )
-    next_evolution = models.ForeignKey(
-        'self',
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name='next',
-    )
     image = models.ImageField(upload_to='avatars', null=True, blank=True)
 
     def __str__(self):

@@ -99,12 +99,15 @@ def show_pokemon(request, pokemon_id):
     except AttributeError:
         previous_evolution = None
     try:
+        next_pokemon = pokemon.previous.all()[0]
         next_evolution = {
-            'pokemon_id': pokemon.next_evolution.id,
-            'title_ru': pokemon.next_evolution.title,
-            'img_url': pokemon.next_evolution.image.url,
+            'pokemon_id': next_pokemon.id,
+            'title_ru': next_pokemon.title,
+            'img_url': next_pokemon.image.url,
         }
     except AttributeError:
+        next_evolution = None
+    except IndexError:
         next_evolution = None
     pokemon_attributes = {
         'title_ru': pokemon.title,
