@@ -4,6 +4,23 @@ from django.utils import timezone
 
 class Pokemon(models.Model):
     title = models.CharField(max_length=200)
+    title_en = models.CharField(max_length=200, null=True, blank=True)
+    title_jp = models.CharField(max_length=200, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    previous_evolution = models.ForeignKey(
+        'self',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='previous',
+    )
+    next_evolution = models.ForeignKey(
+        'self',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='next',
+    )
     image = models.ImageField(upload_to='avatars', null=True, blank=True)
 
     def __str__(self):
