@@ -93,6 +93,9 @@ def show_pokemon(request, pokemon_id):
     pokemon_attributes = {
         'title_ru': pokemon.title,
         'img_url': pokemon.image.url,
+        'title_en': pokemon.title_en,
+        'title_jp': pokemon.title_jp,
+        'description': pokemon.description,
     }
     context = {
         'map': folium_map._repr_html_(),
