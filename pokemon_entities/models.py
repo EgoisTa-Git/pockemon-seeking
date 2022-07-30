@@ -2,21 +2,25 @@ from django.db import models
 from django.utils import timezone
 
 
+def tomorrow():
+    return timezone.now() + timezone.timedelta(days=1)
+
+
 class Pokemon(models.Model):
     title = models.CharField('Название', max_length=200)
     title_en = models.CharField(
         'Название на английском',
         max_length=200,
-        null=True,
+        default='',
         blank=True,
     )
     title_jp = models.CharField(
         'Название на японском',
         max_length=200,
-        null=True,
+        default='',
         blank=True,
     )
-    description = models.TextField('Описание', null=True, blank=True)
+    description = models.TextField('Описание', default='', blank=True)
     previous_evolution = models.ForeignKey(
         'self',
         on_delete=models.SET_NULL,
@@ -54,14 +58,13 @@ class PokemonEntity(models.Model):
     )
     disappeared_at = models.DateTimeField(
         'Время исчезновения',
-        null=True,
-        blank=True,
+        default=tomorrow
     )
-    level = models.IntegerField('Уровень', default=0)
-    health = models.IntegerField('Здоровье', default=1)
-    strength = models.IntegerField('Сила', default=1)
-    defence = models.IntegerField('Защита', default=1)
-    stamina = models.IntegerField('Выносливость', default=1)
+    level = models.IntegerField('Уровень', default=0, blank=True)
+    health = models.IntegerField('Здоровье', default=1, blank=True)
+    strength = models.IntegerField('Сила', default=1, blank=True)
+    defence = models.IntegerField('Защита', default=1, blank=True)
+    stamina = models.IntegerField('Выносливость', default=1, blank=True)
 
     def __str__(self):
         return f'{self.pokemon.title} ({self.level})'

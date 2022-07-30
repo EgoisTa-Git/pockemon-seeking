@@ -37,12 +37,15 @@ def show_all_pokemons(request):
     )
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     for entity in pokemon_entities:
-        add_pokemon(
-            folium_map, entity.lat,
-            entity.lon,
-            request.build_absolute_uri(entity.pokemon.image.url),
-        )
-
+        try:
+            add_pokemon(
+                folium_map,
+                entity.lat,
+                entity.lon,
+                request.build_absolute_uri(entity.pokemon.image.url),
+            )
+        except ValueError:
+            add_pokemon(folium_map, entity.lat, entity.lon)
     pokemons_on_page = []
     pokemons = Pokemon.objects.all()
     for pokemon in pokemons:
@@ -85,11 +88,14 @@ def show_pokemon(request, pokemon_id):
     #     return HttpResponseNotFound('<h1>Такой покемон не найден</h1>')
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     for pokemon_entity in pokemons_entities:
-        add_pokemon(
-            folium_map, pokemon_entity.lat,
-            pokemon_entity.lon,
-            request.build_absolute_uri(pokemon.image.url),
-        )
+        try:
+            add_pokemon(
+                folium_map, pokemon_entity.lat,
+                pokemon_entity.lon,
+                request.build_absolute_uri(pokemon.image.url),
+            )
+        except ValueError:
+            add_pokemon(folium_map, pokemon_entity.lat, pokemon_entity.lon)
     try:
         previous_evolution = {
             'pokemon_id': pokemon.previous_evolution.id,
@@ -109,9 +115,13 @@ def show_pokemon(request, pokemon_id):
         next_evolution = None
     except IndexError:
         next_evolution = None
+    try:
+        img_url = pokemon.image.url
+    except ValueError:
+        img_url = DEFAULT_IMAGE_URL
     pokemon_attributes = {
         'title_ru': pokemon.title,
-        'img_url': pokemon.image.url,
+        'img_url': img_url,
         'title_en': pokemon.title_en,
         'title_jp': pokemon.title_jp,
         'description': pokemon.description,
