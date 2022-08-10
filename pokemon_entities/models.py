@@ -60,11 +60,11 @@ class PokemonEntity(models.Model):
         'Время исчезновения',
         default=get_tomorrow_date
     )
-    level = models.IntegerField('Уровень', default=0, blank=True)
-    health = models.IntegerField('Здоровье', default=1, blank=True)
-    strength = models.IntegerField('Сила', default=1, blank=True)
-    defence = models.IntegerField('Защита', default=1, blank=True)
-    stamina = models.IntegerField('Выносливость', default=1, blank=True)
+    level = models.IntegerField('Уровень')
+    health = models.IntegerField('Здоровье')
+    strength = models.IntegerField('Сила')
+    defence = models.IntegerField('Защита')
+    stamina = models.IntegerField('Выносливость')
 
     def __str__(self):
         return f'{self.pokemon.title} ({self.level})'
