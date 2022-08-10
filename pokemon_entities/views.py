@@ -103,9 +103,9 @@ def show_pokemon(request, pokemon_id):
         next_evolution = None
     except IndexError:
         next_evolution = None
-    try:
+    if pokemon.image.url:
         img_url = pokemon.image.url
-    except ValueError:
+    else:
         img_url = DEFAULT_IMAGE_URL
     pokemon_attributes = {
         'title_ru': pokemon.title,
