@@ -67,10 +67,9 @@ def show_all_pokemons(request):
 def show_pokemon(request, pokemon_id):
     try:
         pokemon = Pokemon.objects.get(id=pokemon_id)
-        pokemons_entities = PokemonEntity.objects.filter(
+        pokemons_entities = pokemon.entities.filter(
             appeared_at__lt=timezone.localtime(),
             disappeared_at__gt=timezone.localtime(),
-            pokemon=pokemon,
         )
     except Pokemon.DoesNotExist:
         return HttpResponseNotFound('<h1>Такой покемон не найден</h1>')
