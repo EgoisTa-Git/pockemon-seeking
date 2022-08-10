@@ -1,6 +1,4 @@
-import django.core.exceptions
 import folium
-import json
 
 from django.http import HttpResponseNotFound
 from django.shortcuts import render
@@ -24,8 +22,6 @@ def add_pokemon(folium_map, lat, lon, image_url=DEFAULT_IMAGE_URL):
     )
     folium.Marker(
         [lat, lon],
-        # Warning! `tooltip` attribute is disabled intentionally
-        # to fix strange folium cyrillic encoding bug
         icon=icon,
     ).add_to(folium_map)
 
@@ -69,8 +65,6 @@ def show_all_pokemons(request):
 
 
 def show_pokemon(request, pokemon_id):
-    # with open('pokemon_entities/pokemons.json', encoding='utf-8') as database:
-    #     pokemons = json.load(database)['pokemons']
     try:
         pokemon = Pokemon.objects.get(id=pokemon_id)
         pokemons_entities = PokemonEntity.objects.filter(
@@ -80,12 +74,6 @@ def show_pokemon(request, pokemon_id):
         )
     except Pokemon.DoesNotExist:
         return HttpResponseNotFound('<h1>Такой покемон не найден</h1>')
-    # for pokemon in pokemons:
-    #     if pokemon['pokemon_id'] == int(pokemon_id):
-    #         requested_pokemon = pokemon
-    #         break
-    # else:
-    #     return HttpResponseNotFound('<h1>Такой покемон не найден</h1>')
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     for pokemon_entity in pokemons_entities:
         try:
