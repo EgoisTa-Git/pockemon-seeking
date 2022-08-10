@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 
 
-def tomorrow():
+def get_tomorrow_date():
     return timezone.now() + timezone.timedelta(days=1)
 
 
@@ -58,7 +58,7 @@ class PokemonEntity(models.Model):
     )
     disappeared_at = models.DateTimeField(
         'Время исчезновения',
-        default=tomorrow
+        default=get_tomorrow_date
     )
     level = models.IntegerField('Уровень', default=0, blank=True)
     health = models.IntegerField('Здоровье', default=1, blank=True)
