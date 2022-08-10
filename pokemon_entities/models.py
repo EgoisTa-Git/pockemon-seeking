@@ -11,16 +11,14 @@ class Pokemon(models.Model):
     title_en = models.CharField(
         'Название на английском',
         max_length=200,
-        default='',
         blank=True,
     )
     title_jp = models.CharField(
         'Название на японском',
         max_length=200,
-        default='',
         blank=True,
     )
-    description = models.TextField('Описание', default='', blank=True)
+    description = models.TextField('Описание', blank=True)
     previous_evolution = models.ForeignKey(
         'self',
         on_delete=models.SET_NULL,
